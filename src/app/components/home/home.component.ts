@@ -8,9 +8,7 @@ import { SpotifyService } from 'src/app/services/spotify.service';
   styles: []
 })
 export class HomeComponent {
-
-  paises: any[] = [];  // Variable
-  nuevasCanciones: any[] = [];
+  // paises: any[] = [];  // Variable
   // Llamar a un servicio - GET
   // constructor( private http: HttpClient) {
   //   console.log('Constructor Hecho');
@@ -20,14 +18,19 @@ export class HomeComponent {
   //       console.log(respuesta); // Muestra lo que responde el servicio
   //   });
   // }
+  nuevasCanciones: any[] = []; // Variable para el servicio
+  loading: boolean; // Variable para el loading
 
     constructor( private spotify: SpotifyService) {
+      // llamado del loading
+      this.loading = true;
 
+      // llamado del servicio
       this.spotify.getNewReleases()
         .subscribe( (data: any) => {
-         console.log(data.albums.items);
-         this.nuevasCanciones = data.albums.items;
+         console.log(data);
+         this.nuevasCanciones = data;
+         this.loading = false; // cuando termina de cargar se borra el loading
       });
     }
-
 }
