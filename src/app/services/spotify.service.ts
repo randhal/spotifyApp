@@ -15,7 +15,7 @@ export class SpotifyService {
     const url = `https://api.spotify.com/v1/${query}`;  // Para no repetir codigo de la url
 
     const headers = new HttpHeaders({  // Arma el parametro de entrada
-      Authorization: 'Bearer BQAAzS2OzhDhi35D9Pu0TYIoqf047CgU7frf2OvGCMCSuubL8HCE1EPK-x6z3u0HHHIQlcuVcWu-zd7tJt0SxC_yKN_QvFaF_UMXQ3X2ehQBwmV0UKIRt-u6gTx0TAZBNbbZdodSNRN80lrM1C0'
+      Authorization: 'Bearer QC05xJUWkzQ0O3XIYwwcvZX35LxpYMzhHYLvr7oGqYghnyrAT8GrNLuCQ4CFT1V65dngqTFZXAkkoCen9w'
     });
 
     return this.http.get(url, {headers}); // El llamado del servicio
@@ -38,13 +38,15 @@ export class SpotifyService {
 
     return this.getQuery(`search?query=${ termino }&type=artist&market=PE&offset=0&limit=15`)
       .pipe( map(  data => data['artists'].items) );
-
-    // return this.http.get(`https://api.spotify.com/v1/search?query=${termino}&type=artist&market=PE&offset=0&limit=15`, { headers })
-    //   .pipe( map( data => data['artists'].items ));
   }
 
   getArtist( id: string ) {
     return this.getQuery(`artists/${ id }`);
-    // .pipe( map(  data => data['artists'].items) );
+  }
+
+  getTopTracks( id: string ) {
+    // El servicio me bota una objeto. Usare pipe para poder transformar mi respuesta
+    return this.getQuery(`artists/${ id }/top-tracks?country=us`)
+      .pipe( map(  data => data['tracks']) );
   }
 }

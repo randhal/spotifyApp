@@ -20,10 +20,12 @@ export class HomeComponent {
   // }
   nuevasCanciones: any[] = []; // Variable para el servicio
   loading: boolean; // Variable para el loading
+  error: boolean; // Variable para el error
+  mensajeError: string;
 
     constructor( private spotify: SpotifyService) {
-      // llamado del loading
-      this.loading = true;
+      this.loading = true; // llamado del loading
+      this.error = false; // llamado del error
 
       // llamado del servicio
       this.spotify.getNewReleases()
@@ -31,6 +33,12 @@ export class HomeComponent {
          console.log(data);
          this.nuevasCanciones = data;
          this.loading = false; // cuando termina de cargar se borra el loading
+      }, ( errorServicio ) => { 
+        this.error = true;
+        this.loading = false;
+        this.mensajeError = errorServicio.error.error.message;
+        console.log(errorServicio); // Muestra todo el objeto error
+        console.log(errorServicio.error.error.message); // Muestra el mensaje que bota el servicio
       });
     }
 }

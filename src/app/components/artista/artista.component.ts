@@ -10,6 +10,7 @@ import { SpotifyService } from 'src/app/services/spotify.service';
 export class ArtistaComponent  {
   artista: any = {};
   loadingArtist: boolean;
+  topTracks: any[]  = []; // Una lista vacia
   // 2do paso cuando haces una redireccion - desde tarjetas.component.ts
   constructor(private router: ActivatedRoute,
               private spotify: SpotifyService) {
@@ -23,6 +24,7 @@ export class ArtistaComponent  {
 
       // LLamar al metodo (SERVICIO GETARTISTA)
       this.getArtista(params.id);
+      this.getTopTracks(params.id);
 
     });
    }
@@ -37,5 +39,12 @@ export class ArtistaComponent  {
         this.artista = data;
         this.loadingArtist = false;
       });
+   }
+
+   getTopTracks( id: string) {
+    this.spotify.getTopTracks( id ).subscribe( tracks => {
+      console.log(tracks);
+      this.topTracks = tracks;
+    });
    }
 }
